@@ -3,6 +3,21 @@ import sqlite3
 
 app = Flask(__name__)
 
+# Crear base de datos y tabla si no existen
+conn = sqlite3.connect("inventario.db")
+cursor = conn.cursor()
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS productos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre TEXT NOT NULL,
+    categoria TEXT NOT NULL,
+    precio REAL NOT NULL,
+    stock INTEGER NOT NULL
+)
+""")
+conn.commit()
+conn.close()
+
 def get_db():
     conn = sqlite3.connect("inventario.db")
     conn.row_factory = sqlite3.Row
